@@ -52,12 +52,6 @@ public class MagicCell extends BasicCell {
     }
 
     @AssistedInject
-    public MagicCell(@Assisted String payload) {
-        this.magicValue = Integer.parseInt(payload);
-        init();
-    }
-
-    @AssistedInject
     public MagicCell() {
         this.magicValue = 0;
     }

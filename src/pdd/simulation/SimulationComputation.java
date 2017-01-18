@@ -89,13 +89,15 @@ public class SimulationComputation<V extends BasicCell> extends BasicComputation
             return;
 
         if ((getSuperstep() - 2) % 4 == 0) {
+
+            // check if FGF19 is produced
             V cell = vertex.getValue();
             if (cell.isFGF19produced()) {
+                // send message to neighbours about available FGF19
                 BooleanMessageEncoder encoder = new BooleanMessageEncoder();
                 Message msg = encoder.encode(cell.isFGF19produced());
                 msg.setSender(vertex.getId());
                 sendMessageToAllEdges(vertex, msg);
-                aggregate(SimulationMasterCompute.MESSAGE_COUNT, new LongWritable(1));
             }
         }
 
@@ -141,7 +143,6 @@ public class SimulationComputation<V extends BasicCell> extends BasicComputation
                 BooleanMessageEncoder encoder = new BooleanMessageEncoder();
                 Message msg = encoder.encode(true);
                 sendMessage(requestRecipient, msg);
-                aggregate(SimulationMasterCompute.MESSAGE_COUNT, new LongWritable(1));
 
                 // FGF19 is used after confirming request to neighbour
                 V cell = vertex.getValue();
@@ -166,10 +167,9 @@ public class SimulationComputation<V extends BasicCell> extends BasicComputation
                 vertex.setValue(cell);
             }
 
-            // transition to next state if no message has been sent since production (all produced FGF19 has been used)
+            // transition to next state if no FGF19 request message has been sent since production
             LongWritable msgCount = getAggregatedValue(SimulationMasterCompute.MESSAGE_COUNT);
             if (msgCount.get() == 0) {
-                LOG.info("next state transition");
                 V cell = vertex.getValue();
                 cell.nextState();
                 vertex.setValue(cell);
