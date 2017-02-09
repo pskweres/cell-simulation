@@ -31,7 +31,7 @@ public class SimulationComputation<V extends BasicCell> extends BasicComputation
     private static Population population;
     private static CellFactory cellFactory;
 
-    private static int MAX_STEPS = 100;
+    private static int MAX_STEPS = 10;
 
     @Inject
     public void setPopulation(Population population) {

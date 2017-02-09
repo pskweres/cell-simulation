@@ -6,7 +6,7 @@ import pdd.population.CubePopulation;
 import pdd.population.Population;
 import pdd.cell.Cell;
 import pdd.cell.CellFactory;
-import pdd.cell.MagicCell;
+import pdd.cell.TestCell;
 
 public class AppInjector extends AbstractModule {
 
@@ -16,7 +16,7 @@ public class AppInjector extends AbstractModule {
         bind(Population.class).to(CubePopulation.class);
         
         install(new FactoryModuleBuilder()
-            .implement(Cell.class, MagicCell.class)
+            .implement(Cell.class, TestCell.class)
             .build(CellFactory.class));
                
     }

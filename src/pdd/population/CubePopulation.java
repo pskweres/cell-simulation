@@ -13,7 +13,7 @@ public class CubePopulation implements Population {
     int cubeSize = 0;
 
     public CubePopulation() {
-        cubeSize = 10;
+        cubeSize = 3;
     }
 
     public CubePopulation(int cubeSize) {
