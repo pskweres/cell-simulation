@@ -5,6 +5,7 @@ import java.io.*;
 
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.Text;
 import com.google.inject.assistedinject.*;
 import pdd.cell.Cell;
 import pdd.cell.CellLocation;
@@ -94,24 +95,27 @@ public class TestCell extends BasicCell {
     public TestCell() {
     }
 
-    @Override
-    public void write(DataOutput out) throws IOException {
-        out.writeUTF(Util.toString(currentState));
-        out.writeUTF(Util.toString(net));
-        out.writeUTF(Util.toString(producedFGF19Place));
-        out.writeUTF(Util.toString(requiredFGF19Place));
-    }
-
-    @Override
-    public void readFields(DataInput in) throws IOException {
-        currentState = (State) Util.fromString(in.readUTF());
-        net = (PetriNet) Util.fromString(in.readUTF());
-        producedFGF19Place = (Place) Util.fromString(in.readUTF());
-        requiredFGF19Place = (Place) Util.fromString(in.readUTF());
-    }
-
     public String toString() {
         return currentState.toString();
+    }
+
+    public Text toText() {
+        Serializable[] fields = new Serializable[4];
+        fields[0] = currentState;
+        fields[1] = net;
+        fields[2] = producedFGF19Place;
+        fields[3] = requiredFGF19Place;
+        Text text = new Text(Util.arrayToString(fields));
+        return text;
+    }
+
+
+    public void fromText(Text text) {
+        Object[] fields = Util.arrayFromString(text.toString());
+        currentState = (State) fields[0];
+        net = (PetriNet) fields[1];
+        producedFGF19Place = (Place) fields[2];
+        requiredFGF19Place = (Place) fields[3];   
     }
 
 }

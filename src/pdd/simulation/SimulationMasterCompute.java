@@ -13,6 +13,13 @@ public class SimulationMasterCompute extends DefaultMasterCompute {
 
     @Override
     public void compute() {
+
+        Long numOfRounds = getContext().getConfiguration().getLong("numOfRounds", 0);
+
+        if (getSuperstep() - 2 >= numOfRounds) {
+            haltComputation();
+        }
+
         if ((getSuperstep() - 2) % 4 == 0) {
             setAggregatedValue(MESSAGE_COUNT, new LongWritable(0));
         }

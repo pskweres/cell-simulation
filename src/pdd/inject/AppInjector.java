@@ -10,14 +10,23 @@ import pdd.cell.TestCell;
 
 public class AppInjector extends AbstractModule {
 
+    Class populationClass;
+    Class cellClass;
+
+    public AppInjector(Class populationClass, Class cellClass) {
+        this.populationClass = populationClass;
+        this.cellClass = cellClass;
+    }
+
     @Override
     protected void configure() {
         
-        bind(Population.class).to(CubePopulation.class);
+        bind(Population.class).to(populationClass);
         
         install(new FactoryModuleBuilder()
-            .implement(Cell.class, TestCell.class)
+            .implement(Cell.class, cellClass)
             .build(CellFactory.class));
+
                
     }
 

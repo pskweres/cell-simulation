@@ -10,14 +10,18 @@ import com.google.inject.Injector;
 
 public class CubePopulation implements Population {
 
-    int cubeSize = 0;
+    long cubeSize = 0;
 
     public CubePopulation() {
-        cubeSize = 3;
     }
 
-    public CubePopulation(int cubeSize) {
+    public CubePopulation(long cubeSize) {
         this.cubeSize = cubeSize;
+    }
+
+    @Override
+    public void setSize(long n) {
+        this.cubeSize = n;
     }
 
     @Override

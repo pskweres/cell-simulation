@@ -1,14 +1,15 @@
 package pdd.cell;
 
-import java.io.DataInput;
-import java.io.DataOutput;
-import java.io.IOException;
+import java.util.*;
+import java.io.*;
 import java.util.Random;
 import org.apache.hadoop.io.Writable;
 import org.apache.hadoop.io.DoubleWritable;
+import org.apache.hadoop.io.Text;
 import com.google.inject.assistedinject.*;
 import pdd.cell.Cell;
 import pdd.cell.CellLocation;
+import pdd.util.Util;
 
 
 public class MagicCell extends BasicCell {
@@ -56,22 +57,26 @@ public class MagicCell extends BasicCell {
         this.magicValue = 0;
     }
 
-    @Override
-    public void write(DataOutput out) throws IOException {
-        out.writeInt(magicValue);
-        out.writeBoolean(producedFGF19);
-        out.writeBoolean(receivedFGF19);
-    }
-
-    @Override
-    public void readFields(DataInput in) throws IOException {
-        magicValue = in.readInt();
-        producedFGF19 = in.readBoolean();
-        receivedFGF19 = in.readBoolean();
-    }
-
     public String toString() {
         return Integer.toString(magicValue);
+    }
+
+    @Override
+    public Text toText() {
+        Serializable[] fields = new Serializable[3];
+        fields[0] = magicValue;
+        fields[1] = producedFGF19;
+        fields[2] = receivedFGF19;
+        Text text = new Text(Util.arrayToString(fields));
+        return text;
+    }
+    
+    @Override
+    public void fromText(Text text) {
+        Object[] fields = Util.arrayFromString(text.toString());
+        magicValue = (int) fields[0];
+        producedFGF19 = (boolean) fields[1];
+        receivedFGF19 = (boolean) fields[2];   
     }
 
 }

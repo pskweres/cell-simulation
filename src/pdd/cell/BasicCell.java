@@ -3,14 +3,9 @@ package pdd.cell;
 import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
+import org.apache.hadoop.io.Text;
 
 public abstract class BasicCell implements Cell {
-    
-    @Override
-    public abstract void write(DataOutput out) throws IOException;
-
-    @Override
-    public abstract void readFields(DataInput in) throws IOException;
 
     @Override
     public abstract boolean isFGF19produced();
@@ -28,6 +23,12 @@ public abstract class BasicCell implements Cell {
     public abstract void addFGF19();
     
     @Override
-    public abstract void removeFGF19();    
+    public abstract void removeFGF19();
+
+    @Override
+    public abstract Text toText();
+    
+    @Override
+    public abstract void fromText(Text text);
     
 }
